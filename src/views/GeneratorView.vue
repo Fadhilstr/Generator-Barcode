@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useBarcodeGenerator } from '@/composables/useBarcodeGenerator'
 import { useHistory } from '@/composables/useHistory'
 import { getFormatMeta, SUPPORTED_FORMATS } from '@/utils/formatMetadata'
-import type { BarcodeFormat, BarcodeHistoryItem } from '@/types/barcode'
+import type { BarcodeHistoryItem } from '@/types/barcode'
 
 import FormatSelector from '@/components/generator/FormatSelector.vue'
 import BarcodeConfigForm from '@/components/generator/BarcodeConfigForm.vue'
