@@ -5,16 +5,22 @@ export class QrGenerator implements BarcodeGenerator {
   async generate(value: string, options: BarcodeOptions): Promise<BarcodeResult> {
     const size = Math.max(160, options.height * 2)
 
-    let svg = await QRCode.toString(value, {
-      type: 'svg',
-      errorCorrectionLevel: options.errorCorrectionLevel || 'M',
-      margin: Math.max(0, Math.floor(options.margin / 4)),
-      color: {
-        dark: options.foregroundColor || '#000000',
-        light: options.backgroundColor || '#ffffff'
-      },
-      width: size
-    })
+    let svg = ''
+    try {
+      svg = await QRCode.toString(value, {
+        type: 'svg',
+        errorCorrectionLevel: options.errorCorrectionLevel || 'M',
+        margin: Math.max(0, Math.floor(options.margin / 4)),
+        color: {
+          dark: options.foregroundColor || '#000000',
+          light: options.backgroundColor || '#ffffff'
+        },
+        width: size
+      })
+    } catch (err: unknown) {
+      console.warn('[QR Engine Error]', err)
+      throw new Error('Content exceeds QR capacity for the selected error correction level. Please reduce content length.')
+    }
 
     let finalWidth = size
     let finalHeight = size

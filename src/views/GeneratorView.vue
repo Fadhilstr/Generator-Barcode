@@ -23,6 +23,7 @@ const {
   generationError,
   setFormat,
   applySuggestedValue,
+  loadExampleValue,
   resetOptions
 } = useBarcodeGenerator()
 
@@ -119,6 +120,8 @@ function onSelectHistoryItem(item: BarcodeHistoryItem) {
               :validation="validationResult"
               :is-generating="isGenerating"
               :generation-error="generationError"
+              @load-example="loadExampleValue"
+              @apply-suggested="applySuggestedValue"
             />
 
             <ExportActions

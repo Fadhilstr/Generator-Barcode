@@ -51,7 +51,9 @@ export function useBarcodeGenerator() {
       barcodeResult.value = result
     } catch (err: unknown) {
       barcodeResult.value = null
-      generationError.value = err instanceof Error ? err.message : 'Unable to render barcode image.'
+      const meta = getFormatMeta(selectedFormat.value)
+      const rawMsg = err instanceof Error ? err.message : ''
+      generationError.value = rawMsg || `Unable to encode ${meta.name} barcode. Please verify format specifications.`
     } finally {
       isGenerating.value = false
     }
@@ -107,6 +109,11 @@ export function useBarcodeGenerator() {
     }
   }
 
+  function loadExampleValue() {
+    const meta = getFormatMeta(selectedFormat.value)
+    inputValue.value = meta.exampleValue
+  }
+
   function resetOptions() {
     Object.assign(options, defaultOptions)
   }
@@ -121,8 +128,8 @@ export function useBarcodeGenerator() {
     generationError,
     setFormat,
     applySuggestedValue,
+    loadExampleValue,
     resetOptions,
     performGeneration
   }
 }
-

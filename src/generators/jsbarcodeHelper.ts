@@ -14,7 +14,7 @@ export function renderJsBarcodeSvg(
   const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
 
   let hasError = false
-  let errorMessage = ''
+  let technicalDetail = ''
 
   try {
     JsBarcode(svgNode, value, {
@@ -32,17 +32,19 @@ export function renderJsBarcodeSvg(
       valid: (valid) => {
         if (!valid) {
           hasError = true
-          errorMessage = `Symbology ${internalFormat} rejected value: ${value}`
+          technicalDetail = `JsBarcode validation callback returned false for ${internalFormat}`
         }
       }
     })
   } catch (err: unknown) {
     hasError = true
-    errorMessage = err instanceof Error ? err.message : String(err)
+    technicalDetail = err instanceof Error ? err.message : String(err)
   }
 
   if (hasError) {
-    throw new Error(errorMessage || `Failed to generate ${internalFormat} barcode`)
+    // Log technical detail for developers without leaking raw strings to UI
+    console.warn(`[Barcode Engine] ${internalFormat} encoding rejected:`, technicalDetail)
+    throw new Error(`The entered value is not valid for ${internalFormat}. Please verify required length and characters.`)
   }
 
   // Extract dimensions
