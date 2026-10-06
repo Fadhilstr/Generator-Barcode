@@ -21,16 +21,10 @@ function selectFormat(id: BarcodeFormat) {
 
 <template>
   <div class="space-y-3">
-    <div class="flex items-center justify-between">
+    <div>
       <label for="format-select-native" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
         Barcode Symbology
       </label>
-      <router-link
-        to="/formats"
-        class="text-xs text-brand-600 dark:text-brand-400 hover:underline font-medium"
-      >
-        View Specs
-      </router-link>
     </div>
 
     <!-- Native select for mobile view or keyboard quick access -->
